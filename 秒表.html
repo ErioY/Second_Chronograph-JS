@@ -1,0 +1,104 @@
+<!--
+ * @Autor: ErioY
+ * @Date: 2019-08-16 15:20:23
+ * @Email: 1973545559@qq.com
+ * @Github: https://github.com/ErioY
+ * @LastEditors: ErioY
+ * @LastEditTime: 2019-08-16 15:44:50
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>秒表</title>
+    <style>
+    #div1 {
+        width: 300px;
+        height: 400px;
+        /* 透明度渐变 */
+        background: -webkit-linear-gradient(right,rgba(247,26,185,0.37 ),rgba(3,169,244,0.8));
+        margin: 50px auto;
+        border: 1px rgb(75, 69, 161) solid;
+        text-align: center;
+    }
+    #count {
+        width: 200px;
+        height: 150px;
+        line-height: 150px;
+        margin: auto;
+        font-size: 32px;
+    }
+    input {
+        width: 150px;
+        height:40px;
+        font-size: 25px;
+        margin-top: 20px;
+        background: #55e48ccc;
+        border: none;
+        color: white;
+    }
+    </style>
+    <script>
+    // 声明一个函数，用于查找标签节点
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    window.onload = function() {
+        var count = 0; // 开始计数以后累加的总秒数
+        var timer = null;  
+        // 点击“开始”按钮
+        $("start").onclick = function() {
+            // 计时器开始计时
+            timer = setInterval(function() {
+                count++;
+                // 改变当前页面上时分秒的值
+                $("id_S").innerHTML = showNum(count % 60); // 秒
+                $("id_M").innerHTML = showNum(parseInt(count / 60) % 60); // 分
+                $("id_H").innerHTML = showNum(parseInt(count / 60 / 60)); // 时
+            },1000);
+        }
+        // 点击“暂停”按钮
+        $("pause").onclick = function() {
+            // 取消定时器
+            clearInterval(timer);
+        }
+        // 点击“停止”按钮,停止计数，清零
+        $("stop").onclick = function() {
+            // 取消定时器
+            clearInterval(timer);
+            // 数据清零
+            count = 0;
+            // 当前页面数据清零
+            $("id_S").innerHTML = "00"; // 秒
+            $("id_M").innerHTML = "00"; // 分
+            $("id_H").innerHTML = "00"; // 时
+        }
+    }
+    // 处理单个数字函数
+    function showNum(num) {
+        if (num < 10) {
+            return "0" + num;
+        } else {
+            return num;
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="div1">
+        <div id="count">
+            <span id="id_H">00</span>
+            <span>:</span>
+            <span id="id_M">00</span>
+            <span>:</span>
+            <span id="id_S">00</span>
+        </div>
+        <input id="start" type="button" value="开始">
+        <input id="pause" type="button" value="暂停">
+        <input id="stop" type="button" value="停止">
+    </div>
+</body>
+</html>
